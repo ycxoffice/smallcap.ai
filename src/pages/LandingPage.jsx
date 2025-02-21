@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   TrendingUp,
   Shield,
@@ -13,6 +15,7 @@ import {
 const SmallcapLanding = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [chartData, setChartData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -54,10 +57,6 @@ const SmallcapLanding = () => {
               <BarChart2 className="w-8 h-8 text-green-500" />
               <span className="text-2xl font-bold">smallcap.ai</span>
             </div>
-            <button className="px-6 py-2 bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-200 flex items-center space-x-2">
-              <span>Start Investing</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </button>
           </div>
         </div>
       </nav>
@@ -77,12 +76,12 @@ const SmallcapLanding = () => {
                 of the market with data-driven insights.
               </p>
               <div className="flex flex-wrap gap-4">
-                <button className="px-8 py-4 bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-200 flex items-center space-x-2">
+                <button
+                  onClick={() => navigate("/CompanyList")}
+                  className="px-8 py-4 bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                >
                   <span>Explore Companies</span>
                   <ArrowUpRight className="w-5 h-5" />
-                </button>
-                <button className="px-8 py-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                  Learn More
                 </button>
               </div>
             </div>
@@ -218,7 +217,12 @@ const SmallcapLanding = () => {
             next big small-cap opportunity.
           </p>
           <button className="px-12 py-6 bg-green-500 hover:bg-green-600 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 mx-auto">
-            <span className="text-xl font-semibold">Access Database Now</span>
+            <span
+              onClick={() => navigate("/CompanyList")}
+              className="text-xl font-semibold"
+            >
+              Access Database Now
+            </span>
             <ArrowUpRight className="w-6 h-6" />
           </button>
         </div>
