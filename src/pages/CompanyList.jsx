@@ -124,10 +124,10 @@ function CompanyList() {
             </div>
             <div className="hidden md:flex items-center space-x-6">
               <a
-                href="#"
+                href="https://trade.smallcap.ai"
                 className="text-gray-400 hover:text-green-500 transition-colors text-sm font-medium"
               >
-                Watchlist
+                Predictions
               </a>
             </div>
           </div>

@@ -84,6 +84,17 @@ const SmallcapLanding = () => {
                   <ArrowUpRight className="w-5 h-5" />
                 </button>
               </div>
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() =>
+                    (window.location.href = "https://trade.smallcap.ai")
+                  }
+                  className="px-8 py-4 bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                >
+                  <span>Predictions</span>
+                  <ArrowUpRight className="w-5 h-5" />
+                </button>
+              </div>
             </div>
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-blue-500/10 blur-3xl"></div>
