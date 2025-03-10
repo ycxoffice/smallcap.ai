@@ -24,22 +24,19 @@ function CompanyList() {
   const [selectedExchange, setSelectedExchange] = useState("");
   const [selectedSector, setSelectedSector] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [displayLimit] = useState(1000);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Google Sheets API endpoint using sheet ID and tab ID
         const sheetId = "10n9xmV01j3_6pDU7QiR5DIbanIfAyYcd8rVavXT17oE";
         const tabId = "336036379";
         const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${tabId}`;
 
         const response = await fetch(url);
         const text = await response.text();
-
-        // Parse the JSON-like response from Google Sheets
         const jsonData = JSON.parse(text.substring(47).slice(0, -2));
 
-        // Extract column headers and company data
         const headers = jsonData.table.cols.map((col) => col.label);
         const rows = jsonData.table.rows.map((row) => {
           const company = {};
@@ -63,7 +60,6 @@ function CompanyList() {
     fetchData();
   }, []);
 
-  // Get unique exchanges and sectors for filters
   const exchanges = [
     ...new Set(companies.map((company) => company["Exchange"] || "")),
   ].filter(Boolean);
@@ -87,6 +83,12 @@ function CompanyList() {
 
     return matchesSearch && matchesExchange && matchesSector;
   });
+
+  // Determine which companies to display
+  const displayedCompanies =
+    searchTerm.trim() === ""
+      ? filteredCompanies.slice(0, displayLimit)
+      : filteredCompanies;
 
   if (loading)
     return (
@@ -209,7 +211,9 @@ function CompanyList() {
                     </button>
 
                     <div className="text-gray-500 text-sm">
-                      {filteredCompanies.length} companies found
+                      {searchTerm.trim() === ""
+                        ? `${displayedCompanies.length} of ${filteredCompanies.length} companies shown`
+                        : `${displayedCompanies.length} companies found`}
                     </div>
                   </div>
 
@@ -317,7 +321,7 @@ function CompanyList() {
           </div>
         </div>
 
-        {filteredCompanies.length === 0 ? (
+        {displayedCompanies.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-16 bg-gray-900/50 rounded-lg border border-gray-800">
             <div className="p-4 bg-gray-800 rounded-full mb-4">
               <Search className="h-8 w-8 text-gray-400" />
@@ -355,7 +359,7 @@ function CompanyList() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCompanies.map((company, index) => (
+            {displayedCompanies.map((company, index) => (
               <Link
                 to={`/${encodeURIComponent(company["Company Name"] || "")}`}
                 key={index}
